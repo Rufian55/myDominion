@@ -9,7 +9,7 @@
 #include "dominion.h"
 
 // Prototypes.
-void chrisAssert(_Bool result, int testNum);
+void softAssert(_Bool result, int testNum);
 
 int main() {
 	int i;
@@ -27,12 +27,12 @@ int main() {
 
 	// Test 1 - is the province supplyCount > 0 AND 1 was returned.
 	int result = isGameOver(&G1);
-	chrisAssert((!result && G1.supplyCount[province] > 0), 1);
+	softAssert((!result && G1.supplyCount[province] > 0), 1);
 
 	// Test 2 - set province supply card count to 0 (game should end).
 	G1.supplyCount[province] = 0;
 	result = isGameOver(&G1);
-	chrisAssert((result && G1.supplyCount[province] == 0), 2);
+	softAssert((result && G1.supplyCount[province] == 0), 2);
 
 	// Reset gameState G1.
 	memcpy(&G1, &G2, sizeof(struct gameState));
@@ -45,7 +45,7 @@ int main() {
 		}
 	}
 	result = isGameOver(&G1);
-	chrisAssert((result && G1.supplyCount[0] == 0 && G1.supplyCount[12] == 0 && G1.supplyCount[24] == 0 ), 3);
+	softAssert((result && G1.supplyCount[0] == 0 && G1.supplyCount[12] == 0 && G1.supplyCount[24] == 0 ), 3);
 
 	// Test 4 for the edge case of only 2 supply piles at 0.
 	// Reset gameState G1.
@@ -67,23 +67,23 @@ int main() {
 		}
 	}
 	// Checked gameState above to increment test4!
-	chrisAssert((!result && test4 < 3), 4);
+	softAssert((!result && test4 < 3), 4);
 
 	return 0;
 }
 
 /* "Roll your own" less intrusive assert function. NOTE: When the expectation
-    is result should be false, call chrisAssert with "!result" as argument. */
-void chrisAssert(_Bool result, int testNum) {
-	printf("Function isGameOver() - ");
+is result should be false, call softAssert with "!result" as argument. */
+void softAssert(_Bool result, int testNum) {
+	printf("Function gainCard() - ");
 	if (result)
 		printf("TEST %d SUCCESFULLY COMPLETED\n", testNum);
 	else
-		printf("TEST %d FAILED\n", testNum);
+		printf("TEST %d FAILED - Potential bug!\n", testNum);
 }
 
 
-/* // Function isGameOver()
+/* // Function isGameOver() here for reference only.
 int isGameOver(struct gameState *state) {
 	int i;
 	int j;

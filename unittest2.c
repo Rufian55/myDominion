@@ -9,7 +9,7 @@
 #include "dominion.h"
 
 // Prototypes.
-void chrisAssert(_Bool result, int testNum);
+void softAssert(_Bool result, int testNum);
 int testGetWinners(int players[MAX_PLAYERS], struct gameState *state);
 
 int main() {
@@ -29,14 +29,14 @@ int main() {
 
 	// Test 1 - does testGetWinner run and return 0?  Should be 0.
 	int result = testGetWinners(players, &G1);
-	chrisAssert(!result, 1);
+	softAssert(!result, 1);
 
 	// Test 2 - we initialized the game with 2 players, so there should be 2 and only 2.
-	chrisAssert(!(G1.numPlayers > 2) && !(G1.numPlayers < 2), 2);
+	softAssert(!(G1.numPlayers > 2) && !(G1.numPlayers < 2), 2);
 
 	// Test 3 - Manually set the number of players to 3 and rerun Test 2.
 	G1.numPlayers = 3;
-	chrisAssert(!(!(G1.numPlayers > 2) && !(G1.numPlayers < 2)), 3);
+	softAssert(!(!(G1.numPlayers > 2) && !(G1.numPlayers < 2)), 3);
 
 	// Reset gameState G1.
 	memcpy(&G1, &G2, sizeof(struct gameState));
@@ -44,19 +44,19 @@ int main() {
 	#define TEST4 1 // Should result in players[1] == 1 and players[0, 2, & 3] == 0.
 	/* Test 4. Test for correct player winning and if players array is being
 	   reset to 0/1 rather than the actual scores as we manually inject scores below. */
-	chrisAssert( (players[0] == 0 && players[1] == 1 && players[2] == 0 && players[3] == 0), 4);
+	softAssert((players[0] == 0 && players[1] == 1 && players[2] == 0 && players[3] == 0), 4);
 
 	return 0;
 }
 
 /* "Roll your own" less intrusive assert function. NOTE: When the expectation
-is result should be false, call chrisAssert with "!result" as argument. */
-void chrisAssert(_Bool result, int testNum) {
-	printf("Function getWinners() - ");
+is result should be false, call softAssert with "!result" as argument. */
+void softAssert(_Bool result, int testNum) {
+	printf("Function gainCard() - ");
 	if (result)
 		printf("TEST %d SUCCESFULLY COMPLETED\n", testNum);
 	else
-		printf("TEST %d FAILED\n", testNum);
+		printf("TEST %d FAILED - Potential bug!\n", testNum);
 }
 
 

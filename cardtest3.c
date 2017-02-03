@@ -9,7 +9,7 @@
 #include "dominion.h"
 
 // Prototypes.
-void chrisAssert(_Bool result, int testNum);
+void softAssert(_Bool result, int testNum);
 
 int main() {
 
@@ -17,11 +17,11 @@ int main() {
 }
 
 /* "Roll your own" less intrusive assert function. NOTE: When the expectation
-is result should be false, call chrisAssert with "!result" as argument. */
-void chrisAssert(_Bool result, int testNum) {
-	printf("Function getWinners() - ");
+is result should be false, call softAssert with "!result" as argument. */
+void softAssert(_Bool result, int testNum) {
+	printf("Function gainCard() - ");
 	if (result)
 		printf("TEST %d SUCCESFULLY COMPLETED\n", testNum);
 	else
-		printf("TEST %d FAILED\n", testNum);
+		printf("TEST %d FAILED - Potential bug!\n", testNum);
 }
