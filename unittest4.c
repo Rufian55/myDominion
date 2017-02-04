@@ -1,5 +1,5 @@
 /******************************************************************************
-* Unittest 4: function testGainCard() tests dominion.c::gainCard().
+* Unittest 4: function gainCard() tests dominion.c::gainCard().
 * unittest4.c is a unit testing program for the above function contained within
 * dominion.c, compiled via MakeFile.
 * Chris Kearns, kearnsc@oregonstate.edu, CS325-400-W17, Assign_3, 5 Feb 2017
@@ -10,7 +10,7 @@
 
 // Prototypes.
 void softAssert(_Bool result, int testNum);
-int testGainCard(int supplyPos, struct gameState *state, int toFlag, int player);
+//int testGainCard(int supplyPos, struct gameState *state, int toFlag, int player);
 
 int main() {
 	struct gameState G1;	// Our gameState to be tested.
@@ -19,25 +19,25 @@ int main() {
 	int k[10] = { adventurer, gardens, embargo, village, minion, mine, cutpurse,
 		sea_hag, tribute, smithy };
 
-	// Bypasses CLI input with randomseed = 66 (totally random pick by tester...)
-	initializeGame(2, k, 66, &G1);
+	// Bypasses CLI input with randomseed = 44 (totally random pick by tester...)
+	initializeGame(2, k, 44, &G1);
 
 	// Set gameState G2 to the initial settings following initialization of G1.
 	memcpy(&G2, &G1, sizeof(struct gameState));
 	
 	// TEST 1: Does a card that is not in the supplyCount array return -1.
 	enum aCard { gold = 27 }; // A fraudulent card!
-	int result = testGainCard(gold, &G1, 0, 0);
+	int result = gainCard(gold, &G1, 0, 0);
 	softAssert((result == -1 && G1.supplyCount[gold] == 0), 1);
 
 	// TEST 2: Zero out a card in the supplyCount array and recheck.
 	G1.supplyCount[k[0]] = 0;	// k[0] == Adventurer.
-	result = testGainCard(k[0], &G1, 0, 0);
+	result = gainCard(k[0], &G1, 0, 0);
 	softAssert((result == -1 && G1.supplyCount[k[0]] == 0), 2);
 
 	// TEST 3: Add 2 cards back to adventuer supplyCount and recheck. Should have decremented to 1.
 	G1.supplyCount[k[0]] = 2;	// Adventurer.
-	result = testGainCard(k[0], &G1, 0, 0);
+	result = gainCard(k[0], &G1, 0, 0);
 	softAssert((result == 0 && G1.supplyCount[k[0]] == 1), 3);
 
 	// Reset gameState G1.
@@ -45,7 +45,7 @@ int main() {
 
 	// TEST 4 & 5: Gain an Adventurer, toFlag = 0.
 	int temp = G1.discardCount[0];
-	result = testGainCard(7, &G1, 0, 0);
+	result = gainCard(7, &G1, 0, 0);
 	softAssert((result == 0 && G1.discard[0][G1.discardCount[0]] == 7), 4);// **** POTENTIAL BUG ****
 	softAssert((G1.discardCount[0] == temp + 1) , 5);					 // Incremented OK.
 
@@ -54,7 +54,7 @@ int main() {
 
 	// TEST 6 & 7: Gain an Adventurer, toFlag = 1.
 	temp = G1.deckCount[0];
-	result = testGainCard(7, &G1, 1, 0);
+	result = gainCard(7, &G1, 1, 0);
 	softAssert((result == 0 && G1.deck[0][G1.deckCount[0]] == 7), 6);// **** POTENTIAL BUG ****
 	softAssert((G1.deckCount[0] == temp + 1), 7);				// Incremented OK.
 
@@ -63,7 +63,7 @@ int main() {
 
 	// TEST 8 & 9: Gain an Adventurer, toFlag = 2.
 	temp = G1.handCount[0];
-	result = testGainCard(7, &G1, 2, 0);
+	result = gainCard(7, &G1, 2, 0);
 	softAssert((result == 0 && G1.hand[0][G1.handCount[0]] == 7), 8);// **** POTENTIAL BUG ****
 	softAssert((G1.handCount[0] == temp + 1), 9);				// Incremented OK.
 
@@ -82,7 +82,8 @@ void softAssert(_Bool result, int testNum) {
 }
 
 
-int testGainCard(int supplyPos, struct gameState *state, int toFlag, int player) {
+/* For reference only. 
+int gainCard(int supplyPos, struct gameState *state, int toFlag, int player) {
 	// Note: supplyPos is enum of choosen card.
 	// Check if supply pile is empty (0) or card is not used in game (-1).
 	if (supplyCount(supplyPos, state) < 1) {
@@ -114,3 +115,4 @@ int testGainCard(int supplyPos, struct gameState *state, int toFlag, int player)
 
 	return 0;
 }
+*/

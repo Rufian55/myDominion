@@ -1,5 +1,5 @@
 /******************************************************************************
-* Unittest 3: function testDiscardCard() tests dominion.c::discardCard().
+* Unittest 3: function discardCard() tests dominion.c::discardCard().
 * unittest3.c is a unit testing program for the above function contained within
 * dominion.c, compiled via MakeFile.
 * Chris Kearns, kearnsc@oregonstate.edu, CS325-400-W17, Assign_3, 5 Feb 2017
@@ -10,7 +10,7 @@
 
 // Prototypes.
 void softAssert(_Bool result, int testNum);
-int testDiscardCard(int handPos, int currentPlayer, struct gameState *state, int trashFlag);
+//int testDiscardCard(int handPos, int currentPlayer, struct gameState *state, int trashFlag);
 
 int main() {
 	struct gameState G1;	// Our gameState to be tested.
@@ -19,27 +19,29 @@ int main() {
 	int k[10] = { adventurer, gardens, embargo, village, minion, mine, cutpurse,
 		sea_hag, tribute, smithy };
 
-	// Bypasses CLI input with randomseed = 66 (totally random pick by tester...)
-	initializeGame(2, k, 66, &G1);
+	// Bypasses CLI input with randomseed = 33 (totally random pick by tester...)
+	initializeGame(2, k, 33, &G1);
 
 	// Set gameState G2 to the initial settings following initialization of G1.
 	memcpy(&G2, &G1, sizeof(struct gameState));
 
 	// TEST 1: Player 0 discards village card (enum CARD 14), trashflag is 0.
-	int result = testDiscardCard(14, 0, &G1, 0);
+	int result = discardCard(14, 0, &G1, 0);
 	softAssert((result == 0 && G1.playedCards[G1.playedCardCount] == 0 && G1.playedCardCount == 1), 1);
 
 	// Reset gameState G1.
 	memcpy(&G1, &G2, sizeof(struct gameState));
 
-	// TEST 2: Player 0 discards village card (enum CARD 14), trashflag is 1.
-	result = testDiscardCard(14, 0, &G1, 1);
+	// TEST 2: Player 0 discards village card (enum CARD 14), trashflag is 1.  Fails - G1.playedCards[G1.playedCardCount] unitialized.
+	result = discardCard(14, 0, &G1, 1);
 	softAssert((result == 0 && G1.playedCards[G1.playedCardCount] == 0 && G1.playedCardCount == 0), 2);
 
 	// Reset gameState G1.
 	memcpy(&G1, &G2, sizeof(struct gameState));
 
-	int test7 = G1.handCount[0];	// Save that for now...
+	int test7 = G1.handCount[0];		// Save that for now...
+	int test8 = G1.handCount[1];		// Save that for now...
+	int test9 = G1.playedCardCount;	// Save that for now...
 
 	// TEST 3: Player 0 discards the last card in hand (temp-1), trashflag is 0.
 	// First, we find the last card in player 0's hand...
@@ -50,7 +52,7 @@ int main() {
 		}
 	}
 	// ...and discard that card.
-	result = testDiscardCard(temp - 1, 0, &G1, 0);
+	result = discardCard(temp - 1, 0, &G1, 0);
 	softAssert((result == 0 && G1.hand[0][temp-1] == -1), 3);
 
 	// Do not reset gameState G1 !
@@ -67,6 +69,12 @@ int main() {
 	// Test 7: Did number of cards in player[0]'s hand decrement.
 	softAssert((G1.handCount[0] == test7 - 1), 7);
 
+	// Test 8: Did number of cards in player[1]'s hand decrement. Fails! **** POTENTIAL BUG ****
+	softAssert((G1.handCount[1] == test8 - 1), 8);
+
+	// Test 9: Does playedCardCount increment?
+	softAssert((G1.playedCardCount +1 == test9 ), 9);
+
 	return 0;
 }
 
@@ -74,7 +82,7 @@ int main() {
 /* "Roll your own" less intrusive assert function. NOTE: When the expectation
 is result should be false, call softAssert with "!result" as argument. */
 void softAssert(_Bool result, int testNum) {
-	printf("Function gainCard() - ");
+	printf("Function discardCard() - ");
 	if (result)
 		printf("TEST %d SUCCESFULLY COMPLETED\n", testNum);
 	else
@@ -82,7 +90,8 @@ void softAssert(_Bool result, int testNum) {
 }
 
 
-int testDiscardCard(int handPos, int currentPlayer, struct gameState *state, int trashFlag) {
+/* For reference only.
+int discardCard(int handPos, int currentPlayer, struct gameState *state, int trashFlag) {
 	// If card is not trashed, added to Played pile.
 	if (trashFlag < 1) {
 		// Add card to played pile.
@@ -110,3 +119,4 @@ int testDiscardCard(int handPos, int currentPlayer, struct gameState *state, int
 	}
 	return 0;
 }
+*/

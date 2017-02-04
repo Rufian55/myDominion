@@ -1,5 +1,5 @@
 /******************************************************************************
-* Unittest 2: function testGetWinners() tests dominion.c::getWinners().
+* Unittest 2: function getWinners() tests dominion.c::getWinners().
 * unittest2.c is a unit testing program for the above function contained within
 * dominion.c, compiled via MakeFile.
 * Chris Kearns, kearnsc@oregonstate.edu, CS325-400-W17, Assign_3, 5 Feb 2017
@@ -10,7 +10,7 @@
 
 // Prototypes.
 void softAssert(_Bool result, int testNum);
-int testGetWinners(int players[MAX_PLAYERS], struct gameState *state);
+//int testGetWinners(int players[MAX_PLAYERS], struct gameState *state);
 
 int main() {
 	struct gameState G1;	// Our gameState to be tested.
@@ -19,8 +19,8 @@ int main() {
 	int k[10] = { adventurer, gardens, embargo, village, minion, mine, cutpurse,
 		sea_hag, tribute, smithy };
 
-	// Bypasses CLI input with randomseed = 55 (randomly pick by tester...)
-	initializeGame(2, k, 55, &G1);
+	// Bypasses CLI input with randomseed = 22 (randomly pick by tester...)
+	initializeGame(2, k, 22, &G1);
 
 	// Set gameState G2 to the initial settings following initialization of G1.
 	memcpy(&G2, &G1, sizeof(struct gameState));
@@ -28,7 +28,7 @@ int main() {
 	int players[MAX_PLAYERS];
 
 	// Test 1 - does testGetWinner run and return 0?  Should be 0.
-	int result = testGetWinners(players, &G1);
+	int result = getWinners(players, &G1);
 	softAssert(!result, 1);
 
 	// Test 2 - we initialized the game with 2 players, so there should be 2 and only 2.
@@ -52,14 +52,14 @@ int main() {
 /* "Roll your own" less intrusive assert function. NOTE: When the expectation
 is result should be false, call softAssert with "!result" as argument. */
 void softAssert(_Bool result, int testNum) {
-	printf("Function gainCard() - ");
+	printf("Function getWinners() - ");
 	if (result)
 		printf("TEST %d SUCCESFULLY COMPLETED\n", testNum);
 	else
 		printf("TEST %d FAILED - Potential bug!\n", testNum);
 }
 
-
+/* For reference only.
 int testGetWinners(int players[MAX_PLAYERS], struct gameState *state) {
 	int i;
 	int j;
@@ -119,3 +119,4 @@ int testGetWinners(int players[MAX_PLAYERS], struct gameState *state) {
 
 	return 0;
 }
+*/

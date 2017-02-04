@@ -553,11 +553,7 @@ int getCost(int cardNumber) {
 }
 
 int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus) {
-	int i;
-	int j;
-	int k;
-	int x;
-	int index;
+	int i, j, k, x, index;
 	int currentPlayer = whoseTurn(state);
 	int nextPlayer = currentPlayer + 1;
 //	int tributeRevealedCards[2] = {-1, -1};

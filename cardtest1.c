@@ -22,8 +22,8 @@ int main() {
 	int k[10] = { adventurer, gardens, embargo, village, minion, mine, cutpurse,
 		sea_hag, tribute, smithy };
 
-	// Bypasses CLI input with randomseed = 66 (totally random pick by tester...)
-	initializeGame(2, k, 66, &G1);
+	// Bypasses CLI input with randomseed = 55 (totally random pick by tester...)
+	initializeGame(2, k, 55, &G1);
 
 	// Set gameState G2 to the initial settings following initialization of G1.
 	memcpy(&G2, &G1, sizeof(struct gameState));
@@ -95,7 +95,7 @@ int main() {
 /* "Roll your own" less intrusive assert function. NOTE: When the expectation
 is result should be false, call softAssert with "!result" as argument. */
 void softAssert(_Bool result, int testNum) {
-	printf("Function runSmithy() - ");
+	printf("Card Smithy - ");
 	if (result)
 		printf("TEST %d SUCCESFULLY COMPLETED\n", testNum);
 	else
@@ -104,7 +104,7 @@ void softAssert(_Bool result, int testNum) {
 
 
 /* For reference only.
-void arunSmithy(struct gameState* state, int currentPlayer, int handPos) {
+void runSmithy(struct gameState* state, int currentPlayer, int handPos) {
 	int i;
 	// +3 Cards.
 	for (i = 3; i > 0; i--) {
